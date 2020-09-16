@@ -26,5 +26,9 @@ jobs:
           #  the output of the action can be found in ${{ steps.update_worksheet.outputs.results }}
           RESULTS: ${{ steps.update_worksheet.outputs.results }}
         run: |
-          echo "$.results[0].result.properties.title"
+          function echo_test_run() {
+            local cmd=$(echo "${RESULTS}" | jq ".results[${1}].command.func")
+            echo "${cmd} (${1})"
+          }
           echo "$RESULTS"
+          echo_test_run 0
