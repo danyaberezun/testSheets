@@ -62,8 +62,8 @@ jobs:
         with:
           spreadsheetId: ${{secrets.SPREADSHEET_ID}}
           commands: | # list of commands, specified as a valid JSON string
-            [{ "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": 5, "minRow": 2 }} ]
-#           ${{needs.job2.outputs.output_id_number}}
+            ${{needs.job2.outputs.output_id_number}}
+#           [{ "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": 5, "minRow": 2 }} ]
 #           [
 #             { "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": ${{needs.job2.outputs.output_id_number}}, "minRow": 2 }}
 #           ]
