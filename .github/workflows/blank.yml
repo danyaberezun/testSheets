@@ -25,17 +25,19 @@ jobs:
         env:
           #  the output of the action can be found in ${{ steps.update_worksheet.outputs.results }}
           RESULTS: ${{ steps.update_worksheet.outputs.results }}
-        run: |
-          function echo_test_run() {
-            local cmd=$(echo "${RESULTS}" | jq ".results[${1}].result.rawData")
-            echo "${cmd} (${1})"
-            for (const cells of cmd) {
-              if (cell === "A") {
-                echo "yes"
-              } else {
-                echo "no"
+        uses: actions/github-script@v3
+        with:
+          script: |
+            function echo_test_run() {
+              local cmd=$(echo "${RESULTS}" | jq ".results[${1}].result.rawData")
+              echo "${cmd} (${1})"
+              for (const cells of cmd) {
+                if (cell === "A") {
+                  echo "yes"
+                } else {
+                  echo "no"
+                }
               }
             }
-          }
-          echo "$RESULTS"
-          echo_test_run 0
+            echo "$RESULTS"
+            echo_test_run 0
