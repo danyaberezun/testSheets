@@ -2,31 +2,23 @@ name: gsheet.action test
 on: push
 
 jobs:
-  e2e:
-    env:
-      TARGET_URL: ${{ format('https://github.com/{0}/actions/runs/{1}', github.repository, github.run_id) }}
-      STATUS_URL: '{{ STATUS_URL }}'
-      STATUS_CONTEXT: e2e-preview/github-actions
+  fetch:
     runs-on: ubuntu-latest
     steps:
-      - name: create pull request status pending
-        run: |
-          description="E2E tests pending"
-          curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X POST -d "{\"state\": \"pending\", \"description\": \"${description}\", \"context\": \"${STATUS_CONTEXT}\", \"target_url\": \"${TARGET_URL}\"}" ${STATUS_URL}
-      - id: 'run_worksheet_tests'
-        uses: '{{ USES_PREVIEW_VERSION }}'
+      - id: 'update_worksheet'
+        uses: jroehl/gsheet.action@release # you can specify '@release' to always have the latest changes
         with:
-          spreadsheetId: ${{ secrets.SPREADSHEET_ID }}
+          spreadsheetId: ${{secrets.SPREADSHEET_ID}}
           commands: | # list of commands, specified as a valid JSON string
             [
-              { "command": "addWorksheet", "args": { "worksheetTitle": "<gsheet.action_e2e-tests_${{ github.sha }}>" }},
-              { "command": "updateData", "args": { "data": [["A1", "A2", "A3"]] }},
-              { "command": "appendData", "args": { "data": [["B1", "B2", "B3"]], "minCol": 1 }},
-              { "command": "appendData", "args": { "data": [["C2", "C3", "C4"]], "minCol": 2 }},
-              { "command": "getData", "args": { "minCol": 1 } },
-              { "command": "getData", "args": { "range": "<gsheet.action_e2e-tests_${{ github.sha }}>!A2:B3" } },
-              { "command": "removeWorksheet", "args": { "worksheetTitle": "<gsheet.action_e2e-tests_${{ github.sha }}>" }}
+              { "command": "addWorksheet", "args": { "worksheetTitle": "<worksheetTitle>" }},
+              { "command": "updateData", "args": { "data": [["A1", "A2", "A3"]] }}
             ]
         env:
           GSHEET_CLIENT_EMAIL: ${{ secrets.SERVICE_EMAIL }}
           GSHEET_PRIVATE_KEY: ${{ secrets.SERVICE_KEY }}
+      - name: dump results
+        env:
+          #  the output of the action can be found in ${{ steps.update_worksheet.outputs.results }}
+          RESULTS: ${{ steps.update_worksheet.outputs.results }}
+        run: echo "$RESULTS" | jq
