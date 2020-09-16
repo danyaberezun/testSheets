@@ -32,7 +32,7 @@ jobs:
         name: dump results
         env:
           #  the output of the action can be found in ${{ steps.update_worksheet.outputs.results }}
-          RESULTS: ${{ steps.update_worksheet.outputs.results }}
+          RESULTS: ${{ steps.get_worksheet.outputs.results }}
         run: |
           cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
           echo "$cmd"
