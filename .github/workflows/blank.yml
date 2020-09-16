@@ -1,53 +1,72 @@
 name: gsheet.action test
 on: push
 
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      output1: ${{ steps.step1.outputs.test }}
+      output2: ${{ steps.step2.outputs.test }}
+    steps:
+    - id: step1
+      run: echo "::set-output name=test::hello"
+    - id: step2
+      run: echo "::set-output name=test::world"
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+    - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}}
 
-jobs:  
-  get_id_job:
-    name: Create version number
-    runs-on: ubuntu-latest
-    steps:
-      - id: get_id_step
-        run: echo "::set-output name=id::\"$(git log -1 --pretty=format:'%an')\""
-  fetch:
-    runs-on: ubuntu-latest
-    steps:
-      - id: 'update_worksheet'
-        uses: jroehl/gsheet.action@v1.0.0 # you can specify '@release' to always have the latest changes
-        with:
-          spreadsheetId: ${{secrets.SPREADSHEET_ID}}
-          commands: | # list of commands, specified as a valid JSON string
-            [
-              { "command": "getData", "args": { "worksheetTitle": "generetedSheet", "minCol": 1, "maxCol": 1 } }
-            ]
-        env:
-          GSHEET_CLIENT_EMAIL: ${{ secrets.SERVICE_EMAIL }}
-          GSHEET_PRIVATE_KEY: ${{ secrets.SERVICE_KEY }}
-          # { "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": 2, "minRow": 3 }},
-        # { "command": "updateData", "args": {"data": [["A1", "A2", "A3"]] }},
-# { "command": "addWorksheet", "args": { "worksheetTitle": "generetedSheet" }},
-#               { "command": "appendData", "args": { "worksheetTitle": "generetedSheet", "data": [["B1", "B2", "B3"]], "minCol": 1 }}
-                        # { "command": "updateData", "args": { "worksheetTitle": "Sheet1", "data": [["A1", "A2", "A3"]] }},
-                # \"$(git log -1 --pretty=format:'%an')\"
-      - name: dump results
-        env:
-          #  the output of the action can be found in ${{ steps.update_worksheet.outputs.results }}
-          RESULTS: ${{ steps.update_worksheet.outputs.results }}
-        run: |
-          cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
-          gitid=$(echo "${{ jobs.get_id_job.steps.get_id_step.outputs.id }}")
-          echo "$gitid"
-          for i in {0..60}
-          do
-            t=$(echo "${cmd}" | jq ".[$i][0]")
-            if [ "$gitid" = "$t" ];
-            then
-              echo "FOUND"
-              [
-                { "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": $i, "minRow": 2 }}
-              ]
-            fi
-          done
+# jobs:  
+#   get_id_job:
+#     name: Create version number
+#     runs-on: ubuntu-latest
+#     steps:
+#       - id: get_id_step
+#         run: echo "::set-output name=id::\"$(git log -1 --pretty=format:'%an')\""
+#   fetch:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - id: 'update_worksheet'
+#         uses: jroehl/gsheet.action@v1.0.0 # you can specify '@release' to always have the latest changes
+#         with:
+#           spreadsheetId: ${{secrets.SPREADSHEET_ID}}
+#           commands: | # list of commands, specified as a valid JSON string
+#             [
+#               { "command": "getData", "args": { "worksheetTitle": "generetedSheet", "minCol": 1, "maxCol": 1 } }
+#             ]
+#         env:
+#           GSHEET_CLIENT_EMAIL: ${{ secrets.SERVICE_EMAIL }}
+#           GSHEET_PRIVATE_KEY: ${{ secrets.SERVICE_KEY }}
+#           # { "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": 2, "minRow": 3 }},
+#         # { "command": "updateData", "args": {"data": [["A1", "A2", "A3"]] }},
+# # { "command": "addWorksheet", "args": { "worksheetTitle": "generetedSheet" }},
+# #               { "command": "appendData", "args": { "worksheetTitle": "generetedSheet", "data": [["B1", "B2", "B3"]], "minCol": 1 }}
+#                         # { "command": "updateData", "args": { "worksheetTitle": "Sheet1", "data": [["A1", "A2", "A3"]] }},
+#                 # \"$(git log -1 --pretty=format:'%an')\"
+#       - name: dump results
+#         env:
+#           #  the output of the action can be found in ${{ steps.update_worksheet.outputs.results }}
+#           RESULTS: ${{ steps.update_worksheet.outputs.results }}
+#         run: |
+#           cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
+#           gitid=$(echo "${{ jobs.get_id_job.steps.get_id_step.outputs.id }}")
+#           echo "$gitid"
+#           for i in {0..60}
+#           do
+#             t=$(echo "${cmd}" | jq ".[$i][0]")
+#             if [ "$gitid" = "$t" ];
+#             then
+#               echo "FOUND"
+#               [
+#                 { "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": $i, "minRow": 2 }}
+#               ]
+#             fi
+#           done
+
+
 #       - uses: actions/checkout@v1
 #       - name: Extract info
 #         uses: ./ # Uses an action in the root directory
