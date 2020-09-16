@@ -26,17 +26,11 @@ jobs:
           #  the output of the action can be found in ${{ steps.update_worksheet.outputs.results }}
           RESULTS: ${{ steps.update_worksheet.outputs.results }}
         run: |
-          echo "$RESULTS"
           cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
-          c=$(echo "${RESULTS}" | jq ".results[0].result.rawData[0][0]")
-          echo "$c"
-          d=$(echo "${RESULTS}" | jq ".results[0].result.rawData[1][0]")
-          echo "$d"
-          echo "$cmd"
-          
-          echo $(echo "${cmd}" | jq ".[0][0]")
-          i=0
-          echo $(echo "${cmd}" | jq ".[$i][$i]")
+          for i in `seq 0 60`
+            c=echo $(echo "${cmd}" | jq ".[$i][0]")
+            echo "$c"
+          do
 
 
           
