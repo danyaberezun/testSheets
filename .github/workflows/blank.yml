@@ -41,13 +41,14 @@ jobs:
             t=$(echo "${cmd}" | jq ".[$i][0]")
             echo "$t"
             echo "$gitid"
-            if [ "$gitid" = "$t" ];
-            then
+            if [ "$t" = "$gitid" ]; then
               echo "FOUND"
               echo "$i"
               j="[{ "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": ${{needs.job2.outputs.output_id_number}}, "minRow": 2 }} ]"
               echo "$j"
               echo "::set-output name=id::$j"
+            else
+              echo "Strings are not equal."
             fi
           done
           echo "$gitid"
