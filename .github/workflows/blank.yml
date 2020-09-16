@@ -11,13 +11,13 @@ jobs:
           spreadsheetId: ${{secrets.SPREADSHEET_ID}}
           commands: | # list of commands, specified as a valid JSON string
             [
-              { "command": "updateData", "args": { "worksheetTitle": "Sheet1", "data": [["A1", "A2", "A3"]] }},
               { "command": "appendData", "args": { "worksheetTitle": "Sheet1", "data": [["B1", "B2", "B3"]], "minCol": 1 }}
             ]
         env:
           GSHEET_CLIENT_EMAIL: ${{ secrets.SERVICE_EMAIL }}
           GSHEET_PRIVATE_KEY: ${{ secrets.SERVICE_KEY }}
         # { "command": "updateData", "args": {"data": [["A1", "A2", "A3"]] }},
+                        # { "command": "updateData", "args": { "worksheetTitle": "Sheet1", "data": [["A1", "A2", "A3"]] }},
       - name: dump results
         env:
           #  the output of the action can be found in ${{ steps.update_worksheet.outputs.results }}
