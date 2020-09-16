@@ -12,7 +12,7 @@ jobs:
           commands: | # list of commands, specified as a valid JSON string
             [
               { "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["A1", "A2", "A3"]] }},
-              { "command": "getData", "args": { "worksheetTitle": "Sheet1" } },
+              { "command": "getData", "args": { "worksheetTitle": "Sheet1" } }
             ]
         env:
           GSHEET_CLIENT_EMAIL: ${{ secrets.SERVICE_EMAIL }}
