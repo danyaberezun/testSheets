@@ -29,11 +29,11 @@ jobs:
           function echo_test_run() {
             local cmd=$(echo "${RESULTS}" | jq ".results[${1}].result.rawData")
             echo "${cmd} (${1})"
-            for (var i = 0; i < cmd.length; i++){
-              if (cmd[i] == "A"){
+            for (const cells of cmd) {
+              if (cell === "A") {
                 echo "yes"
               } else {
-                echo "No"
+                echo "no"
               }
             }
           }
