@@ -28,23 +28,7 @@ jobs:
         run: |
           echo "$RESULTS"
           cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
-          for i in `seq 1 10` 
-           do       
-          echo "$i"
-          done
-          for i in "$cmd"
-          do
-            if ["$i" == 'A']
-            then
-              echo "A found"
-              echo "$i"
-            else
-              echo "not A"
-              echo "$i"
-            fi
-          done
-          for index in ${!cmd[*]}
-          do
-              printf "%4d: %s\n" $index ${cmd[$index]}
-          done
+          echo "$cmd[1]"
+
+
           
