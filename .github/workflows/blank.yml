@@ -27,9 +27,11 @@ jobs:
           RESULTS: ${{ steps.update_worksheet.outputs.results }}
         run: |
           cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
-          for i in `seq 0 60`
-            echo $(echo "${cmd}" | jq ".[$i][0]")
+          for i in {0..60}
           do
+            echo "$i"
+            echo $(echo "${cmd}" | jq ".[$i][0]")
+          done
 
 
           
