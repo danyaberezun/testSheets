@@ -27,10 +27,15 @@ jobs:
           RESULTS: ${{ steps.update_worksheet.outputs.results }}
         run: |
           cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
+          gitid="d"
           for i in {0..60}
           do
-            echo "$i"
-            echo $(echo "${cmd}" | jq ".[$i][0]")
+            if $gitid == $(echo "${cmd}" | jq ".[$i][0]")
+            then
+              echo "FOUND"
+            else 
+              echo "nope"
+            fi
           done
 
 
