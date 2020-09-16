@@ -33,10 +33,14 @@ jobs:
           echo "$i"
           done
           for i in "$cmd"
-            do
-            echo "$i"
-            done
-          for index in ${!cmd[*]}
           do
-              printf "%4d: %s\n" $index ${cmd[$index]}
+            if ["$i" == 'A']
+            then
+              echo "A found"
+              echo "$i"
+            else
+              echo "not A"
+              echo "$i"
+            fi
           done
+          
