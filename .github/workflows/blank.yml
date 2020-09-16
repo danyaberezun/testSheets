@@ -43,10 +43,11 @@ jobs:
             then
               echo "FOUND"
               echo "$i"
-              echo "::set-output name=id::$i"
+              echo "::set-output name=id::\"[{ "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": ${{needs.job2.outputs.output_id_number}}, "minRow": 2 }} ]\""
             fi
           done
           echo "$gitid"
+#        echo "::set-output name=id::$i"
   job3:
     runs-on: ubuntu-latest
     needs: job2
@@ -56,9 +57,10 @@ jobs:
         with:
           spreadsheetId: ${{secrets.SPREADSHEET_ID}}
           commands: | # list of commands, specified as a valid JSON string
-            [
-              { "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": ${{needs.job2.outputs.output_id_number}}, "minRow": 2 }}
-            ]
+            ${{needs.job2.outputs.output_id_number}}
+#           [
+#             { "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": ${{needs.job2.outputs.output_id_number}}, "minRow": 2 }}
+#           ]
         env:
           GSHEET_CLIENT_EMAIL: ${{ secrets.SERVICE_EMAIL }}
           GSHEET_PRIVATE_KEY: ${{ secrets.SERVICE_KEY }}
