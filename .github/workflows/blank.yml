@@ -14,10 +14,10 @@ jobs:
               { "command": "updateData", "args": { "worksheetTitle": "Sheet1" }},
               { "command": "appendData", "args": { "worksheetTitle": "Sheet1", "data": [["B1", "B2", "B3"]], "minCol": 1 }}
             ]
-          # { "command": "updateData", "args": {"data": [["A1", "A2", "A3"]] }},
-          env:
+        env:
           GSHEET_CLIENT_EMAIL: ${{ secrets.SERVICE_EMAIL }}
           GSHEET_PRIVATE_KEY: ${{ secrets.SERVICE_KEY }}
+        # { "command": "updateData", "args": {"data": [["A1", "A2", "A3"]] }},
       - name: dump results
         env:
           #  the output of the action can be found in ${{ steps.update_worksheet.outputs.results }}
