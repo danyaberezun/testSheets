@@ -44,7 +44,7 @@ jobs:
             if [ "$t" = "$gitid" ]; then
               echo "FOUND"
               echo "$i"
-              j="[{ \"command\": \"updateData\", \"args\": {\"worksheetTitle\": \"generetedSheet\", \"data\": [[\"yes\"]], \"minCol\": $i, \"minRow\": 2 }} ]"
+              j="[{ \"command\": \"updateData\", \"args\": {\"worksheetTitle\": \"generetedSheet\", \"data\": [[\"yes\"]], \"minCol\": 2, \"minRow\": $i }} ]"
               echo "$j"
               echo "::set-output name=id::$j"
             else
@@ -71,10 +71,10 @@ jobs:
         env:
           GSHEET_CLIENT_EMAIL: ${{ secrets.SERVICE_EMAIL }}
           GSHEET_PRIVATE_KEY: ${{ secrets.SERVICE_KEY }}
-      - id: dump
-        run: |
-          gitid=${{needs.job2.outputs.output_id_number}}
-          echo "$gitid"
+#       - id: dump
+#         run: |
+#           gitid=${{needs.job2.outputs.output_id_number}}
+#           echo "$gitid"
 
 #       - uses: actions/checkout@v1
 #       - name: Extract info
