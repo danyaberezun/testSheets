@@ -30,7 +30,7 @@ jobs:
           gitid="d"
           for i in {0..60}
           do
-            if ["$gitid" == $(echo "${cmd}" | jq ".[$i][0]")]
+            if ["${gitid}" == $(echo "${cmd}" | jq ".[$i][0]")]
             then
               echo "FOUND"
             else 
