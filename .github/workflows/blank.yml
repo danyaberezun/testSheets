@@ -43,7 +43,8 @@ jobs:
             then
               echo "FOUND"
               echo "$i"
-              echo "::set-output name=id::\"[{ "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": ${{needs.job2.outputs.output_id_number}}, "minRow": 2 }} ]\""
+              j="[{ "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": ${{needs.job2.outputs.output_id_number}}, "minRow": 2 }} ]"
+              echo "::set-output name=id::$j"
             fi
           done
           echo "$gitid"
