@@ -28,6 +28,10 @@ jobs:
         run: |
           echo "$RESULTS"
           echo "${RESULTS[*]}"
+          for item in ${RESULTS[*]}
+          do
+              printf "Item:   %s\n" $item
+          done
           cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
           c=$(echo "${RESULTS}" | jq ".results[0].result.rawData[0][0]")
           echo "$c"
