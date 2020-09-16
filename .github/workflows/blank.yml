@@ -33,7 +33,7 @@ jobs:
           do
             t=$(echo "${cmd}" | jq ".[$i][0]")
             echo "$t"
-            if [[ "$gitid" == "$t" ]];
+            if [[ "$gitid" == "$t" ]]
             then
               echo "FOUND"
             else 
