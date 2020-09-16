@@ -11,7 +11,7 @@ jobs:
           spreadsheetId: ${{secrets.SPREADSHEET_ID}}
           commands: | # list of commands, specified as a valid JSON string
             [
-              { "command": "updateData", "args": {"data": [["A1", "A2", "A3"]] }}
+              { "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["A1", "A2", "A3"]] }}
             ]
         env:
           GSHEET_CLIENT_EMAIL: ${{ secrets.SERVICE_EMAIL }}
