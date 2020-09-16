@@ -23,11 +23,6 @@ jobs:
 #               { "command": "appendData", "args": { "worksheetTitle": "generetedSheet", "data": [["B1", "B2", "B3"]], "minCol": 1 }}
                         # { "command": "updateData", "args": { "worksheetTitle": "Sheet1", "data": [["A1", "A2", "A3"]] }},
       - uses: actions/checkout@v1
-      - name: Extract info
-        id: infos
-        with:
-          filter_push: '.commits[].author'
-          filter_pull_request: '.pull_request.commits'
       - name: dump results
         env:
           #  the output of the action can be found in ${{ steps.update_worksheet.outputs.results }}
@@ -40,6 +35,8 @@ jobs:
           echo "value: ${{ steps.infos.outputs.value }}"
           echo "branch: ${{ steps.infos.outputs.branch }}"
           echo "pull_request: ${{ steps.infos.outputs.pull_request }}"
+          echo "${.pull_request.commits}"
+          echo "${.commits[].author}"
 
 
           
