@@ -36,7 +36,7 @@ jobs:
         run: |
           cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
           gitid=\"${{needs.job1.outputs.output_id}}\"
-          for i in {0..5}
+          for i in {1..6}
           do
             t=$(echo "${cmd}" | jq ".[$i][0]")
             echo "$t"
