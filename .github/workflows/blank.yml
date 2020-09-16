@@ -27,5 +27,8 @@ jobs:
           RESULTS: ${{ steps.update_worksheet.outputs.results }}
         run: |
           echo "$RESULTS"
-          const cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
-
+          cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
+          for i in `seq 1 10` 
+           do       
+          echo "$i"
+          done
