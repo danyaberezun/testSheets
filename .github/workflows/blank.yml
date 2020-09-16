@@ -31,14 +31,7 @@ jobs:
           echo "$gitid$
           for i in {0..4}
           do
-            t=$(echo "${cmd}" | jq ".[$i][0]")
-            if [ "$gitid" = "$t" ];
-            then
-              echo "FOUND"
-            else 
-              echo "nope"
-            fi
-            echo "$t"
+            echo $(echo "${cmd}" | jq ".[$i][0]")
           done
 
 
