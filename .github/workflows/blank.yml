@@ -11,7 +11,6 @@ jobs:
           spreadsheetId: ${{secrets.SPREADSHEET_ID}}
           commands: | # list of commands, specified as a valid JSON string
             [
-              { "command": "addWorksheet", "args": { "worksheetTitle": "<worksheetTitle>" }},
               { "command": "updateData", "args": { "data": [["A1", "A2", "A3"]] }}
             ]
         env:
