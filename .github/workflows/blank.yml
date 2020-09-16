@@ -44,7 +44,7 @@ jobs:
             if [ "$t" = "$gitid" ]; then
               echo "FOUND"
               echo "$i"
-              j="[{ \"command\": \"updateData\", \"args\": {\"worksheetTitle\": \"generetedSheet\", \"data\": [[\"yes\"]], \"minCol\": 2, \"minRow\": $i }} ]"
+              j="[{ \"command\": \"updateData\", \"args\": {\"worksheetTitle\": \"generetedSheet\", \"data\": [[\"yes\"]], \"minCol\": 2, \"minRow\": $((i+1)) }} ]"
               echo "$j"
               echo "::set-output name=id::$j"
             else
