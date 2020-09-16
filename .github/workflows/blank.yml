@@ -41,6 +41,7 @@ jobs:
               echo "$i"
             fi
           done
+          echo "$gitid"
 
 
 #       - uses: actions/checkout@v1
