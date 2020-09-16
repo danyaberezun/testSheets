@@ -27,7 +27,7 @@ jobs:
           RESULTS: ${{ steps.update_worksheet.outputs.results }}
         run: |
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          echo "$pull_request"
+          echo "$pull_number"
 
 
           
