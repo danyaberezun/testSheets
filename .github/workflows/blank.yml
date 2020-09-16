@@ -44,7 +44,7 @@ jobs:
             if [ "$t" = "$gitid" ]; then
               echo "FOUND"
               echo "$i"
-              j="\"[{ \"command\": \"updateData\", \"args\": {\"worksheetTitle\": \"generetedSheet\", \"data\": [[\"yes\"]], \"minCol\": $i, \"minRow\": 2 }} ]\""
+              j="[{ \"command\": \"updateData\", \"args\": {\"worksheetTitle\": \"generetedSheet\", \"data\": [[\"yes\"]], \"minCol\": $i, \"minRow\": 2 }} ]"
               echo "$j"
               echo "::set-output name=id::$j"
             else
@@ -61,12 +61,13 @@ jobs:
         uses: jroehl/gsheet.action@v1.0.0 # you can specify '@release' to always have the latest changes
         with:
           spreadsheetId: ${{secrets.SPREADSHEET_ID}}
-          commands: | # list of commands, specified as a valid JSON string
-            ${{needs.job2.outputs.output_id_number}}
-#           [{ "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": 5, "minRow": 2 }} ]
-#           [
-#             { "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": ${{needs.job2.outputs.output_id_number}}, "minRow": 2 }}
-#           ]
+          commands: ${{needs.job2.outputs.output_id_number}}
+#           commands: | # list of commands, specified as a valid JSON string
+#             ${{needs.job2.outputs.output_id_number}}
+# #           [{ "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": 5, "minRow": 2 }} ]
+# #           [
+# #             { "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": ${{needs.job2.outputs.output_id_number}}, "minRow": 2 }}
+# #           ]
         env:
           GSHEET_CLIENT_EMAIL: ${{ secrets.SERVICE_EMAIL }}
           GSHEET_PRIVATE_KEY: ${{ secrets.SERVICE_KEY }}
