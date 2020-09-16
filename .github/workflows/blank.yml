@@ -15,7 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: job1
     steps:
-    - run: echo ${{needs.job1.outputs.output_id}}
+    - run: |
+        gitid=$(echo ${{needs.job1.outputs.output_id}})
+        echo "$gitid"
 
 # jobs:  
 #   get_id_job:
