@@ -26,20 +26,6 @@ jobs:
           #  the output of the action can be found in ${{ steps.update_worksheet.outputs.results }}
           RESULTS: ${{ steps.update_worksheet.outputs.results }}
         run: |
-          cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
-          gitid="\"d\""
-          echo "$gitid"
-          for i in {0..60}
-          do
-            t=$(echo "${cmd}" | jq ".[$i][0]")
-            if [ "$gitid" = "$t" ];
-            then
-              echo "FOUND"
-            else 
-              echo "nope"
-            fi
-            echo "$t"
-          done
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           echo "$pull_request"
 
