@@ -35,6 +35,8 @@ jobs:
           echo "$cmd"
           
           echo $(echo "${cmd}" | jq ".[0][0]")
+          i=0
+          echo $(echo "${cmd}" | jq ".[$i][$i]")
 
 
           
