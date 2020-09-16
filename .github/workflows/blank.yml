@@ -31,4 +31,4 @@ jobs:
             echo "${cmd} (${1})"
           }
           echo "$RESULTS"
-          echo_test_run 1
+          echo_test_run 0
