@@ -30,10 +30,4 @@ jobs:
           script: |
               echo "$RESULTS"
               const cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
-              for (const cells of cmd) {
-                if (cell === "A") {
-                  echo "yes"
-                } else {
-                  echo "no"
-                }
-              }
+
