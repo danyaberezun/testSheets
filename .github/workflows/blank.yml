@@ -25,9 +25,7 @@ jobs:
         env:
           #  the output of the action can be found in ${{ steps.update_worksheet.outputs.results }}
           RESULTS: ${{ steps.update_worksheet.outputs.results }}
-        uses: actions/github-script@v3
-        with:
-          script: |
-              echo "$RESULTS"
-              const cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
+        run: |
+          echo "$RESULTS"
+          const cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
 
