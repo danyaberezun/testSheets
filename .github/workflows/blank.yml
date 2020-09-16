@@ -28,9 +28,12 @@ jobs:
         run: |
           cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
           gitid="d"
+          echo "$gitid$
           for i in {0..60}
           do
-            if ["$gitid" = $(echo "${cmd}" | jq ".[$i][0]")]
+            t=$(echo "${cmd}" | jq ".[$i][0]")
+            echo "$t"
+            if ["$gitid" = "$t"]
             then
               echo "FOUND"
             else 
