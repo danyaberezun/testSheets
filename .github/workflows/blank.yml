@@ -28,9 +28,9 @@ jobs:
         run: |
           echo "$RESULTS"
           cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
-          c=$(echo "${RESULTS}" | jq ".results[0].result.rawData[0]")
+          c=$(echo "${RESULTS}" | jq ".results[0].result.rawData[0][0]")
           echo "$c"
-          d=$(echo "${RESULTS}" | jq ".results[0].result.rawData[1]")
+          d=$(echo "${RESULTS}" | jq ".results[0].result.rawData[1][0]")
           echo "$d"
           echo "$cmd"
 
