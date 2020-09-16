@@ -16,7 +16,7 @@ jobs:
     needs: job1
     steps:
     - run: |
-        gitid=$(echo ${{needs.job1.outputs.output_id}})
+        gitid=${{needs.job1.outputs.output_id}}
         echo "$gitid"
 
 # jobs:  
