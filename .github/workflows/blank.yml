@@ -35,7 +35,6 @@ jobs:
           RESULTS: ${{ steps.get_worksheet.outputs.results }}
         run: |
           cmd=$(echo "${RESULTS}" | jq ".results[0].result.rawData")
-          echo "$cmd"
           gitid=\"${{needs.job1.outputs.output_id}}\"
           for i in {0..5}
           do
@@ -45,7 +44,7 @@ jobs:
             if [ "$t" = "$gitid" ]; then
               echo "FOUND"
               echo "$i"
-              j="[{ "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": ${{needs.job2.outputs.output_id_number}}, "minRow": 2 }} ]"
+              j="[{ "command": "updateData", "args": {"worksheetTitle": "generetedSheet", "data": [["yes"]], "minCol": $i, "minRow": 2 }} ]"
               echo "$j"
               echo "::set-output name=id::$j"
             else
