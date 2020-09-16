@@ -43,4 +43,8 @@ jobs:
               echo "$i"
             fi
           done
+          for index in ${!cmd[*]}
+          do
+              printf "%4d: %s\n" $index ${cmd[$index]}
+          done
           
